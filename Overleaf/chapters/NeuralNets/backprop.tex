@@ -1,0 +1,119 @@
+\section{Backpropagation} \label{sec:backpropagation}
+Last section showed how learning in a neural network is a minimization problem on the loss function and that it is solved by repeatedly updating the network's parameters using the gradient of the loss. But how exactly is the gradient calculated? The loss function is a surface in very high dimensions, calculated by averaging some distance function between the network's output and the true output for all inputs on the dataset; and the output of the network is a mapping calculated by passing the input through possible thousands, millions, or more units, where each one can apply a nonlinearity to it's output. In summary, the loss surface is extremely complex and the same should be expected for it's gradient.
+
+To make it simpler to understand how the gradient is calculated, the procedure will be shown only for the weights and biases parameters, since those are present in practically all neural networks (although sometimes the bias is omitted in some units). This section will suppose a neural network with $L+1$ layers, where layer $0$ is the input, layer $L$ is the output and values in between are hidden layers.
+
+Essentially, calculating the gradients consists of a smart application of the chain rule of calculus. Recall that the chain rule is a way of calculating the derivative of composite functions, this means that for a function $y$ that depends on $t$, and $t$ that depends on $x$, then the chain rule allows for calculating the derivative of $y$ with respect to $x$ by compounding how $x$ changes $t$ and how $t$ changes $y$. For the case of single variable functions the chain rule is given by \autoref{eq:chain_rule} \cite[p. 406]{calculusIII2016}.
+\begin{equation} \label{eq:chain_rule}
+    \frac{dy}{dx} = \frac{dy}{dt} \frac{dt}{dx}
+\end{equation}
+
+But for the case of neural networks, the loss function is dependent on all the activations of the output layer, and those are dependent on their weights, biases, and possibly other parameters, besides being dependent on activations of the previous layer. So it is necessary to use the multi-variable generalization of the chain rule shown in \autoref{eq:chain_rule_general} \cite[p. 412]{calculusIII2016}, here it is necessary to compound the effect of $x$ for all the variables $(t_0, t_1, \dots t_n)$ that $y$ is dependent on.
+\begin{equation} \label{eq:chain_rule_general}
+    \frac{\partial y}{\partial x} = \sum_{i}^{n}{\frac{\partial y}{\partial t_i} \frac{\partial t_i}{\partial x}}
+\end{equation}
+
+Having the chain rule in mind, it is also useful to define an additional term $\delta$ that represents the partial derivative of the loss with respect to the weighted input of a unit. For unit $i$ on layer $l$ this term is given by \autoref{eq:neuron_delta}.
+\begin{equation} \label{eq:neuron_delta}
+    \delta_{i}^{(l)} = \frac{\partial J}{\partial z_i^{(l)}}
+\end{equation}
+
+And lastly, note that by differentiating Equations \ref{eq:activation_again} and \ref{eq:dense_weighted_input}, the following relations are obtained.
+\begin{equation*}
+    \frac{\partial z_i^{(l+1)}}{\partial a_i^{(l)}} = w_{ij}^{(l+1)}
+    \qquad
+    \qquad
+    \frac{\partial z_i^{(l)}}{\partial b_i^{(l)}} = 1
+    \qquad \qquad
+    \frac{\partial z_i^{(l)}}{\partial w_{ij}^{(l)}} = a_j^{(l-1)}
+    \\[2pt]
+\end{equation*}
+
+The main idea of this algorithm is to derive $\delta$ for all layers, then use these values to calculate the gradient terms for all parameters, the first step is to calculate $\delta$ in the last layer. For the following derivation, consider $\hat{\bm{y}}$ as the network output, and notice that it is the same as the activations of the output layer $\bm{a}^{(L)}$. By using this knowledge, \autoref{eq:delta_last_layer} is derived as follows.
+\begin{align}
+    \frac{\partial J}{\partial z_i^{(L)}} = \delta_{i}^{(L)} &=
+    \frac{\partial J}{\partial \hat{y_i}} \frac{\partial \hat{y_i}}{\partial z_i^{(L)}} \nonumber \\[10pt]
+    %
+    &= \frac{\partial J}{\partial \hat{y_i}} \frac{\partial a_i^{(L)}}{\partial z_i^{(L)}} \nonumber \\[10pt]
+    %
+    &= \frac{\partial J}{\partial \hat{y_i}} \frac{\partial}{\partial z_i^{(L)}} {f\left(z_i^{(L)}\right)} \nonumber \\[10pt]
+    %
+    \delta_{i}^{(L)} &= \frac{\partial J}{\partial \hat{y_i}} f'\left(z_i^{(L)}\right) \label{eq:delta_last_layer}
+\end{align}
+
+Recall that the loss function $J$ and activation function $f$ should both be continuous and differentiable, and since they are chosen when building the network their derivatives are known. The values $\hat{y_i}$ and $z_i^{(L)}$ are also known since they are calculated by the network and can be easily stored during training. This means that \autoref{eq:delta_last_layer} can be used to calculate all $\delta$ values in the last layer.
+
+By using \autoref{eq:delta_last_layer} it is also possible to find an expression to calculate all the other $\delta$ values, the following derivation shows how this can be done by writing $\delta^{(l)}$ in terms of $\delta^{(l+1)}$ as shown in \autoref{eq:delta_hidden_layer}.
+\begin{align}
+    \frac{\partial J}{\partial z_j^{(l)}} = \delta_j^{(l)} &= \sum_{i}{
+        \frac{\partial J}{\partial z_i^{(l+1)}}
+        \frac{\partial z_i^{(l+1)}}{\partial a_j^{(l)}}
+        \frac{\partial a_j^{(l)}}{\partial z_j^{(l)}}
+    } \nonumber \\[10pt]
+    %
+    &= \sum_{i}{
+        \delta_i^{(l+1)}
+        \frac{\partial z_i^{(l+1)}}{\partial a_j^{(l)}}
+        \frac{\partial a_j^{(l)}}{\partial z_j^{(l)}}
+    } \nonumber \\[10pt]
+    %
+    &= \sum_{i}{
+        \delta_i^{(l+1)}
+        w_{ij}^{(l+1)}
+        \frac{\partial a_j^{(l)}}{\partial z_j^{(l)}}
+    } \nonumber \\[10pt]
+    %
+    \delta_j^{(l)} &= \sum_{i}{
+        \delta_i^{(l+1)}
+        w_{ij}^{(l+1)}
+        f'\left( z_j^{(l)} \right)
+    } \label{eq:delta_hidden_layer}
+    %
+\end{align}
+
+Notice how the algorithm works, first the input is feedforwarded through the network to obtain the output $\hat{\bm{y}}$, this value is used to calculate $\delta^{(L)}$, that is then \textit{backpropagated} through the network in order to calculate $\delta^{(l)}$ for all previous layers. This process gives the name \textit{Backpropagation} to the algorithm.
+
+Now for calculating the gradients using $\delta$. Notice that for this case, where only the weights and biases are being considered, the gradient depends on the change $\partial J$ with respect to $\partial b_i^{(l)}$ and $\partial w_{ij}^{(l)}$ for all units and layers.
+
+The following derivation applies the chain rule to obtain the relation in \autoref{eq:gradient_bias} for the partial derivatives of the loss with respect to all the biases parameters.
+\begin{align}
+    \frac{\partial J}{\partial b_i^{(l)}} &= \sum_{k}{
+        \frac{\partial J}{\partial z_k^{(l)}}
+        \frac{\partial z_k^{(l)}}{\partial b_i^{(l)}}
+    } \nonumber \\
+    %
+    &= \frac{\partial J}{\partial z_i^{(l)}} \frac{\partial z_i^{(l)}}{\partial b_i^{(l)}} + 
+    \sum_{k \neq i}{
+        \frac{\partial J}{\partial z_k^{(l)}}
+        \cancelto{0}{\frac{\partial z_k^{(l)}}{\partial b_i^{(l)}}}
+    } \nonumber \\[10pt]
+    %
+    &= \frac{\partial J}{\partial z_i^{(l)}} \nonumber \\[10pt]
+    %
+    \frac{\partial J}{\partial b_i^{(l)}} &= \delta_{i}^{(l)} \label{eq:gradient_bias}
+\end{align}
+
+The derivation for \autoref{eq:gradient_bias} first breaks the partial derivative of the cost in terms of the weighted inputs $\bm{z}^{(l)}$ in the layer where the bias is present. This is enough since the bias can not influence any previous layers and all influences in the next layers are already captured in the change $\partial J$ with respect to the weighted inputs $\partial z_k^{(l)}$. Since it is also known that the bias does not influence any other unit in the layer, the derivation could have been made directly without breaking the derivative into a sum of all the terms in the layer, but the whole process was shown here for completion sake.
+
+A similar rationale can be used for the weight parameters, obtaining the relation seen in \autoref{eq:gradient_weight}.
+\begin{align}
+    \frac{\partial J}{\partial w_{ij}^{(l)}} &= \sum_{k}{
+        \frac{\partial J}{\partial z_k^{(l)}}
+        \frac{\partial z_k^{(l)}}{\partial w_{ij}^{(l)}}
+    } \nonumber \\
+    %
+    &= \frac{\partial J}{\partial z_i^{(l)}} \frac{\partial z_i^{(l)}}{\partial w_{ij}^{(l)}} + 
+    \sum_{k \neq i}{
+        \frac{\partial J}{\partial z_k^{(l)}}
+        \cancelto{0}{\frac{\partial z_k^{(l)}}{\partial w_{ij}^{(l)}}}
+    } \nonumber \\[10pt]
+    %
+    &= \frac{\partial J}{\partial z_i^{(l)}} a_{j}^{(l-1)} \nonumber \\[10pt]
+    %
+    \frac{\partial J}{\partial w_{ij}^{(l)}} &= \delta_{i}^{(l)} a_{j}^{(l-1)} \label{eq:gradient_weight}
+\end{align}
+
+
+\autoref{eq:gradient_weight} was the last piece of the puzzle, together with Equations \ref{eq:delta_last_layer}, \ref{eq:delta_hidden_layer}, and \ref{eq:gradient_bias}, it can be applied to calculate the gradient for all parameters in the network, and this allows for gradient descent to update the parameters and minimize the loss function. From data to model, a complete procedure for a machine to learn by itself.
+
+There are still some more concepts that will be briefly explored in the next section. One further detail to mention about backpropagation is the fact that the derivations in this section were only made for the weights and biases parameters, what about possible others? There are many different types of additional parameters, but the idea with backpropagation is that the $\delta$ values are already calculated for all the units in the network, any new parameter $\theta$ must simply have a correlation with some of these values in order to obtain $\partial J$ in terms of $\partial\theta$ and apply gradient descent for updates. Modern libraries and frameworks already abstract most of these calculations for the programmer via underlying procedures of automatic differentiation, for example, Tensorflow \cite{tensorflow2015} provides a \texttt{GradientTape} object to automatically watch and calculate the gradients for any desired parameter.

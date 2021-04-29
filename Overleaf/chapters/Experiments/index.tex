@@ -1,0 +1,40 @@
+\glsunset{MNIST}
+\glsunset{CIFAR}
+\glsunset{FCD}
+\glsunset{CS}
+\glsunset{FID}
+\glsunset{IS}
+\glsunset{GAN}
+\glsunset{DCGAN}
+\glsunset{CGAN}
+\glsunset{WGAN}
+\glsunset{WGAN-GP}
+
+\chapter{Experiments} \label{cha:experiments}
+This chapter describes the results of the experiments made and contains some remarks about them, the full conclusions will be presented later in \autoref{cha:conclusion}. All generated images shown in this chapter are not cherry-picked and will always refer to the generator which produced the lowest \gls{FCD} metric unless noted otherwise.
+
+When calculating the \gls{CS} and \gls{FCD} metrics, the number of samples used was $200\times256 = 51,200$ for evaluating generators training with the \gls{MNIST} and Fashion MNIST datasets, for the \gls{CIFAR}-10 dataset this number was cut in half to $25,600$ due to memory constraints in the machine available (see Apendix \ref{apd:machine_specs} for specifications).
+
+For all the \acp{GAN} that use a discriminator instead of a critic (i.e. \gls{GAN}, \gls{DCGAN} and \gls{CGAN}), the loss for the generator was not the one that minimizes the chance of the discriminator being right $\log(1 - D(G(\bm{z})))$, but the one that maximizes the chances of it being wrong $\log(D(G(\bm{z})))$. As discussed in \autoref{sec:gan_architecture}, this idea existed since the introduction of \acp{GAN} \cite{gans2014} and is empirically motivated by the fact that it produces more reliable gradients when the generator has not yet learned to create good results.
+
+The following abbreviations will be used to refer to the values of the hyperparameters used in the experiments: 
+\begin{itemize}
+    \item \gls{BS}
+    \item \glsreset{BN}\gls{BN} \textbf{--} \texttt{Yes} if used in any manner; \texttt{No} otherwise
+    \item \gls{UP} \textbf{--} \texttt{TrpConv} for transposed convolutions; \texttt{Bilinear} for bilinear upsampling; \texttt{Nearest} for Nearest Neighbour upsampling.
+    \item \gls{OPT}
+    \item \gls{LDIM}
+    \item \gls{CLIP}
+    \item \gls{NCRIT}
+    \item \gls{SMOOTH} \textbf{--} If not present, then no label smoothing was used
+    \item Momentum hyperparameter of Adam (\gls{beta_1})
+    \item Learning rate (\gls{learning_rate})
+\end{itemize}
+
+\input{chapters/Experiments/GAN/index}
+\input{chapters/Experiments/DCGAN/index}
+\input{chapters/Experiments/CGAN/index}
+\input{chapters/Experiments/WGAN/index}
+\input{chapters/Experiments/WGAN-GP/index}
+\input{chapters/Experiments/Comparison/index}
+\input{chapters/Experiments/Other/index}

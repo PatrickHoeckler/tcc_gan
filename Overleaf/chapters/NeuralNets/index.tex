@@ -1,0 +1,31 @@
+%% Maybe mention the difference between regression and classification problems
+\glsreset{GAN}
+
+\chapter{Machine Learning and Neural networks} \label{cha:neuralNets}
+
+Machine learning is the discipline of computer science where the goal, instead of laying down the steps for a machine to produce a result given some inputs, is in fact to make the machine find by itself (``learn'') the correct course of action by showing it relevant data. A more rigorous definition is given by \textcite{machineLearning1997}.
+\begin{citacao}
+    A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at task T, as measured by P, improves with experience E. \cite[p. 2]{machineLearning1997}
+\end{citacao}
+
+In this definition the experience E can be viewed as the data that is used to teach the machine \textbf{--} this could be for example a dataset of images that the computer is expected to classify with the correct label (see \autoref{sub:supervised_learning}), or also repeated self play to become better at games like chess or Go as seen in reinforcement learning (see \autoref{sub:semi-supervised_and_RL}), where AlphaZero is a notable example \cite{alphaZero2017}.
+The task T is what the machine is ultimately trying to achieve (e.g. classify images, play chess) and P is the measure of success in the task (e.g. percentage of accurately classified images, proportion of wins against an opponent in chess).
+
+There are multiple approaches that fall unto the category of machine learning, popular techniques include \gls{KNN}, decision trees, random forest, \gls{SVM}, linear and logistic regression, and others\footnote{
+    The paper from \textcite{fashionMNIST2017} gives many performance results for different methods applied on the Fashion MNIST dataset
+}. Among the existing methods, neural networks have shown very good results in the last years, specially after the resurgence of deep learning thanks to the increased computational power, better use of parallelization, and the development of frameworks like Pytorch and Tensorflow.
+
+Currently, neural networks are at the forefront of many areas like image classification\footnote{
+    Big breakthrough in 2012 with AlexNet and the resurgence of Convolutional Neural Networks \cite{alexnet2012}
+}, reinforcement learning\footnote{
+    AlphaGo was the first ever computer to be able to defeat a human professional player at the game of Go \cite{alphaGo2016} and it's successor AlphaZero was able to surpass it by learning entirely through self-play \cite{alphaZero2017}
+}, and generative modeling; where \acp{GAN}, which are the main focus of this document, are showing very good results.
+
+This chapter will explain what are neural networks and how they can learn by themselves, this learning process is also often called training. First however, it is worth to have a brief description of the different types of learning.
+
+
+\input{chapters/NeuralNets/typesML}
+\input{chapters/NeuralNets/ANN}
+\input{chapters/NeuralNets/gradDesc}
+\input{chapters/NeuralNets/backprop}
+\input{chapters/NeuralNets/others}

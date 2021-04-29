@@ -1,0 +1,43 @@
+\chapter{Introduction} \label{cha:introduction}
+There is a subfield in machine learning called generative modeling which is concerned with the task of generating new data from what already exists. The goal is to see a great amount of data in order to understand how it is structured, more formally, try to represent it's probability distribution.
+
+\acp{GAN} are a relatively new approach to generative modeling that were proposed by \textcite{gans2014}. The main idea behind them is a competitive game between a generator and a discriminator, usually implemented as neural networks. The generator creates fake data while the discriminator tries do distinguish it from the real one. The goal of the generator is to produce data as realistic as possible in order to fool the discriminator, which in turn tries it's best not to be fooled. The idea is that, in the end the generator will be so good at his job that it will be impossible for the discriminator to see any difference between real and fake data.
+
+\section{Justification}
+Generative models may seem superfluous at first sight, since the main idea behind them is generating something similar to the already numerous data used to train the models in the first place. Creating more of what there is already plenty of is really not that useful in many cases, but generative modeling goes much further than that. The idea is to create an understanding of how the data is structured, allowing for going beyond than simple generation, including transformation, combination, re-imagination, and more.
+
+Examples include automatic colorization of black and white photos \cite{colorization_gan2018}, upscaling images to higher qualities \cite{ganSuperResolution2016}, filling missing details in images \cite{inpainting2018}, automatic artistic renditions of photos \cite{stylegan2}, and simulating possible futures for training Reinforcement Learning models \cite{nipsGAN2017}. But simple generation can also be desirable, as for the case of generating or continuing pieces of music \cite{jukebox2020}.
+
+\acp{GAN} are a big part of generative modeling, since their introduction they have become increasingly popular, initially being used only for image generation, now they are employed over many other scenarios. One of their advantages over other models is the different way that they approximate the data distribution, which is often more useful for practical situations \cite{wasserstein2017}, and also the fact that they can learn to see a problem as having multiple possible solutions and being able to pick a single one instead of averaging out all of them \cite{nipsGAN2017}.
+
+\section{Problem}
+\acp{GAN} however, are infamous for being particularly difficult to train, the adversarial game that is used in training them can result in an infinite loop around the optimal solution \cite{wasserstein2017}. There are also many proposed improvements to the original \gls{GAN} architecture, making it hard to decide which one is the right choice for a particular situation, or which one would generally be a good option as a starting point to build from.
+
+Even after deciding the type of \gls{GAN}, the process of building it, usually entails a long search of good hyperparameters that can make learning possible. When training \acp{GAN} a difficult situation can happen quite frequently, where the results faced are completely unusable and there is no clear direction as to what went wrong.
+
+\section{Objectives}
+The goal of this document is to explore the theory behind \acp{GAN}, how they work, what problems they have, what are some solutions to these problems, and in the end, compile all this information and run several experiments that will be used to empirically validate the effectiveness of different approaches in the particular and general cases.
+
+By the end of the experiments there should be enough information to build a roadmap to help guide the construction of a \gls{GAN}, detailing which methods have a good chance of producing good results, what are the common problems that may impede progress and their corresponding solutions, and what should be avoided in most cases. It is important that the techniques analysed have a high chance of applying generally to many situations and not just be confined to a single problem.
+
+\section{Methodology}
+The process of creating this document consisted first of research in the area, from the concept of \acp{GAN} to the many proposed improvements to them. Following the research there was a selection for the different techniques that could be implemented and for some good datasets to train the models. Lastly the experiments were made, observing different hyperparameters and how they can influence the overall performance of the model. The results of the experiments are all described in \autoref{cha:experiments} of this document.
+
+For building the neural networks and running the experiments, the Python programming language was chosen and the open-source, machine-learning library TensorFlow \cite{tensorflow2015} was used for building and training all the models. The libraries TensorFlow-GAN, NumPy and Matplotlib were also extensively used to respectively: evaluate the models, handle general numerical calculations, and generate the data visualizations.
+
+All code used for this project is free and open-source, being found on the GitHub repository at the link \url{https://github.com/PatrickHoeckler/tcc_gan}. The code is written mainly in Jupyter notebooks, this was chosen so that it could contain additional information that adds more clarity, so if the code is explored by someone who is not familiar with how it works, it is still possible to transmit better the idea behind it.
+
+
+\section{Notation}
+This document will follow the notation proposed by \cite[p. xiii-xvi]{deepLearningBook2016}, in particular the following:
+\begin{itemize}
+    \item Simple lowercase symbol: $a$ - single dimension scalar value
+    \item Bold lowercase symbol: $\bm{a}$ - vector
+    \item Bold uppercase letter: $\bm{A}$ - matrix
+    \item Simple superscript: $a^b$ - normal exponentiation
+    \item Parenthesis superscript: $a^{(b)}$ - situation specific index
+\end{itemize}
+
+Other notation will be explained as it appears throughout the document.
+
+\glsreset{GAN}

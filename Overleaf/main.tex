@@ -1,0 +1,183 @@
+\documentclass[
+	% -- opções da classe memoir --
+	12pt,				% tamanho da fonte
+	%openright,			% capítulos começam em pág ímpar (insere página vazia caso preciso)
+	oneside,			% para impressão no anverso. Oposto a twoside
+	a4paper,			% tamanho do papel. 
+	% -- opções da classe abntex2 --
+	chapter=TITLE,		% títulos de capítulos convertidos em letras maiúsculas
+	section=TITLE,		% títulos de seções convertidos em letras maiúsculas
+	%subsection=TITLE,	% títulos de subseções convertidos em letras maiúsculas
+	%subsubsection=TITLE,% títulos de subsubseções convertidos em letras maiúsculas
+	% -- opções do pacote babel --
+	english,
+	brazil
+	]{abntex2}
+
+\usepackage{setup/ufscthesisA4-alf}
+\usepackage{setup/my_styles}
+
+% ---
+% Filtering and Mapping Bibliographies
+% ---
+% Pacotes de citações
+% ---
+\usepackage{csquotes}
+\usepackage[backend = biber, style = abnt]{biblatex}
+% FIXME Se desejar estilo numérico de citações,  comente a linha acima e descomente a linha a seguir.
+% \usepackage[backend = biber, style = numeric-comp]{biblatex}
+
+\setlength\bibitemsep{\baselineskip}
+\DeclareFieldFormat{url}{Disponível~em:\addspace\url{#1}}
+\NewBibliographyString{sineloco}
+\NewBibliographyString{sinenomine}
+\DefineBibliographyStrings{brazil}{%
+	sineloco     = {\mkbibemph{S\adddot l\adddot}},
+	sinenomine   = {\mkbibemph{s\adddot n\adddot}},
+	andothers    = {\mkbibemph{et\addabbrvspace al\adddot}},
+	in			 = {\mkbibemph{In:}}
+}
+
+\addbibresource{references.bib} % Seus arquivos de referências
+
+% ---
+\DeclareSourcemap{
+	\maps[datatype=bibtex]{
+		% remove fields that are always useless
+		\map{
+			\step[fieldset=abstract, null]
+			\step[fieldset=pagetotal, null]
+		}
+		% remove URLs for types that are primarily printed
+%		\map{
+%			\pernottype{software}
+%			\pernottype{online}
+%			\pernottype{report}
+%			\pernottype{techreport}
+%			\pernottype{standard}
+%			\pernottype{manual}
+%			\pernottype{misc}
+%			\step[fieldset=url, null]
+%			\step[fieldset=urldate, null]
+%		}
+		\map{
+			\pertype{inproceedings}
+			% remove mostly redundant conference information
+			\step[fieldset=venue, null]
+			\step[fieldset=eventdate, null]
+			\step[fieldset=eventtitle, null]
+			% do not show ISBN for proceedings
+			\step[fieldset=isbn, null]
+			% Citavi bug
+			\step[fieldset=volume, null]
+		}
+	}
+}
+
+% ---
+% Informações de dados para CAPA e FOLHA DE ROSTO
+% ---
+\autor{Patrick Hoeckler}
+\titulo{An Analysis of Techniques for Building Generative Adversarial Networks}
+%\subtitulo{Subtítulo (se houver)}
+\orientador{Prof. Fabrício de Oliveira Ourique, Dr.}
+% Coordenador do curso.
+\coordenador{Prof. Fabrício de Oliveira Ourique, Dr.}
+% Ano em que o trabalho foi defendido.
+\ano{2021}
+% Data em que ocorreu a defesa.
+\data{03 de Maio de 2021}
+% Cidade em que ocorreu a defesa.
+\local{Araranguá}
+\instituicaosigla{UFSC}
+\instituicao{Universidade Federal de Santa Catarina}
+\tipotrabalho{Trabalho de Conclusão de Curso}
+\formacao{Bacharel em Engenharia de Computação}
+\nivel{Bacharel}
+\programa{Curso de Graduação em Engenharia de Computação}
+\centro{Centro de Ciências, Tecnologias e Saúde do Campus Araranguá}
+
+\preambulo {
+    \imprimirtipotrabalho~do~\imprimirprograma~do~\imprimircentro~da~\imprimirinstituicao~para~a~obtenção~do~título~de~\imprimirformacao.
+}
+
+% ---
+% Configurações de aparência do PDF final
+% ---
+% alterando o aspecto da cor azul
+\definecolor{blue}{RGB}{41,5,195}
+% informações do PDF
+\makeatletter
+\hypersetup{
+     	%pagebackref=true,
+		pdftitle={\@title}, 
+		pdfauthor={\@author},
+    	pdfsubject={\imprimirpreambulo},
+	    pdfcreator={LaTeX with abnTeX2},
+		pdfkeywords={ufsc, latex, abntex2}, 
+		colorlinks=true,       		% false: boxed links; true: colored links
+    	linkcolor=black,%blue,          	% color of internal links
+    	citecolor=black,%blue,        		% color of links to bibliography
+    	filecolor=black,%magenta,      		% color of file links
+		urlcolor=black,%blue,
+		bookmarksdepth=4
+}
+\makeatother
+% ---
+
+\include{lists/abbreviations}
+\include{lists/symbols}
+
+% compila a lista de abreviaturas e siglas e a lista de símbolos
+\makenoidxglossaries
+
+% compila o indice
+\makeindex
+
+\begin{document}
+
+\selectlanguage{english}  % Seleciona o idioma do documento (conforme pacotes do babel)
+\frenchspacing  % Retira espaço extra obsoleto entre as frases.
+\OnehalfSpacing  % Espaçamento 1.5 entre linhas
+
+% Corrige justificação
+%\sloppy
+
+% ELEMENTOS PRÉ-TEXTUAIS
+\input{beforetext/beforetext}
+
+
+% -- ELEMENTOS TEXTUAIS ------------------------------------
+\textual
+\include{chapters/Introduction/index}
+\include{chapters/Datasets/index}
+\include{chapters/NeuralNets/index}
+\include{chapters/GANs/index}
+\include{chapters/Experiments/index}
+\include{chapters/Conclusion/index}
+
+% ----------------------------------------------------------
+
+
+% -- ELEMENTOS PÓS-TEXTUAIS  -------------------------------
+\postextual
+
+% Referências
+\begingroup
+    \SingleSpacing\printbibliography[title=REFERÊNCIAS]
+\endgroup
+
+%Apêndices
+\begin{apendicesenv}
+	\input{aftertext/apendix_a}
+\end{apendicesenv}
+
+% Anexos
+% \begin{anexosenv}
+% 	\input{aftertext/anexo_a}
+% \end{anexosenv}
+
+% ----------------------------------------------------------
+
+
+\end{document}

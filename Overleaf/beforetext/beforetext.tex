@@ -1,0 +1,96 @@
+% ---
+% Capa
+% ---
+\imprimircapa
+% ---
+
+% ---
+% Folha de rosto
+% (o * indica que haverá a ficha bibliográfica)
+% ---
+\imprimirfolhaderosto*
+% ---
+
+% ---
+% Inserir a ficha bibliografica
+% ---
+% http://ficha.bu.ufsc.br/
+\begin{fichacatalografica}
+	\includepdf{beforetext/Ficha_Catalografica.pdf}
+\end{fichacatalografica}
+% ---
+
+% ---
+% Inserir folha de aprovação
+% ---
+\begin{folhadeaprovacao}
+	\OnehalfSpacing
+	\centering
+	\imprimirautor\\%
+	\vspace*{10pt}		
+	\textbf{\imprimirtitulo}%
+	\ifnotempty{\imprimirsubtitulo}{:~\imprimirsubtitulo}\\%
+	%		\vspace*{31.5pt}%3\baselineskip
+	\vspace*{\baselineskip}
+	%\begin{minipage}{\textwidth}
+	% ~do~\imprimirprograma~do~\imprimircentro~da~\imprimirinstituicao~para~a~obtenção~do~título~de~\imprimirformacao.
+	Este~\imprimirtipotrabalho~foi julgado adequado para obtenção do Título de \imprimirformacao ~e aprovado em sua forma final pelo~\imprimirprograma. \\
+		\vspace*{\baselineskip}
+	\imprimirlocal, \imprimirdata. \\
+	\vspace*{2\baselineskip}
+	\assinatura{\OnehalfSpacing\imprimircoordenador \\ \imprimircoordenadorRotulo~do Curso}
+	\vspace*{2\baselineskip}
+	\textbf{Banca Examinadora:} \\
+	\vspace*{\baselineskip}
+	\assinatura{\OnehalfSpacing\imprimirorientador \\ Orientador}
+	%\end{minipage}%
+	\vspace*{\baselineskip}
+	\assinatura {
+	    Prof. Antônio Carlos Sobieranski, Dr.\\
+	    Avaliador \\
+	    Universidade Federal de Santa Catarina
+    }
+
+	\vspace*{\baselineskip}
+	\assinatura {
+    	Prof. Alexandre Leopoldo Gonçalves, Dr.\\
+    	Avaliador \\
+    	Universidade Federal de Santa Catarina
+	}
+
+
+\end{folhadeaprovacao}
+% ---
+
+\include{beforetext/dedicatoria}
+\include{beforetext/agradecimentos}
+% \include{beforetext/epigrafe}
+\include{beforetext/abstract}
+
+
+{ %hidelinks
+	\hypersetup{hidelinks}
+	% inserir lista de ilustrações
+	\pdfbookmark[0]{\listfigurename}{lof}
+	\listoffigures*
+	\cleardoublepage
+	
+	% inserir lista de quadros
+    % 	\pdfbookmark[0]{\listofquadrosname}{loq}
+    % 	\listofquadros*
+    % 	\cleardoublepage
+	
+	% inserir lista de tabelas
+% 	\pdfbookmark[0]{\listtablename}{lot}
+% 	\listoftables*
+% 	\cleardoublepage
+	
+	% inserir lista de siglas e lista de simbolos
+	\imprimirlistadesiglas
+	\imprimirlistadesimbolos
+	
+	% inserir o sumario
+	\pdfbookmark[0]{\contentsname}{toc}
+	\tableofcontents*
+	\cleardoublepage
+} %hidelinks

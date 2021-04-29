@@ -1,0 +1,5 @@
+__pycache__/
+.ipynb_checkpoints/
+notes.txt
+*.h5
+*.npy
