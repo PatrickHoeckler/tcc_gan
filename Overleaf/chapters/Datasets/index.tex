@@ -5,18 +5,18 @@ For any machine learning problem there is the desire to model something, some pr
 
 This data can be obtained through self play (e.g. in Reinforcement Learning problems), but in the majority of cases it is given by a dataset. A dataset is simply a collection of samples from the situation being modeled, it does not contain all the possible values but, if sufficiently expansive, it should have enough samples to be a good representation of the distributions and particularities of the modeled situation. The goal of a dataset is to contain enough data, so that a machine learning algorithm trained on it can generalize well to data outside of it.
 
-For neural networks a dataset is commonly divided into three groups: training, validation and test data. The training data is used in the learning process, it is what the network will see and will try to model, given this importance it is usually the largest chunk of a dataset. The validation data on the other hand is used to decide how to build the network and how to train the model, another way of saying this is that the training data is used to tune the network's parameters, while the validation data is used to tune the hyperparameters (see \autoref{sec:loss_&_gradient_descent}).
+For neural networks a dataset is commonly divided into three groups: training, validation and test data. The training data is used in the learning process, it is what the network will see and will try to model, given this importance it is usually the largest portion of a dataset. The validation data on the other hand is used to decide how to build the network and how to train the model, another way of saying this is that the training data is used to tune the network's parameters, while the validation data is used to tune the hyperparameters (see \autoref{sec:loss_&_gradient_descent}).
 
 The validation process consists of training several models on the usually smaller validation data and seeing which set of hyperparameters produced the better results. One might wonder why would there be a need for this data and why not just use the training data instead? The main benefit of using a different set for validation is that validating on the training data has the risk of finding a set of hyperparameters that is particularly good on this data but that does not generalize well, using a separate validation data is a way to not overfit the hyperparameters to the training data and achieve better generalization.
 
-The last chunk of a dataset, the test data, is used to validate the quality of the model and it's hability to generalize. This data should never be used to update either the parameters or hyperparameters, it should instead only be used as an evaluation tool, a way to estimate how well the model will perform on unseen data.
+The last part of a dataset, the test data, is used to validate the quality of the model and its hability to generalize. This data should never be used to update either the parameters or hyperparameters, it should instead only be used as an evaluation tool, a way to estimate how well the model will perform on unseen data.
 
 The next sections will explore the datasets relevant to the experiments made for this document. It is usual for datasets to already come separated into train and test data (the validation data is usually taken from a subset of the training data only if needed). This division will be mentioned for the described datasets, but it is relevant to note that any other divisions could also be obtained by combining and redistributing the data differently.
 
 
 \section{MNIST} \label{sec:mnist}
 \glsreset{MNIST}
-Introduced in 1998 by \textcite{mnist1998}, the \gls{MNIST} is one of the most popular datasets in the field of machine learning, it's simplicity has made it a perfect choice as an introduction to deep learning and classification problems \cite{NN&DL2015}, but also as a benchmark for new techniques in serious research \textbf{--} some examples include \cite{dropout2012}, \cite{gans2014}, \cite{conditionalGAN2014} and \cite{adam2017}.
+Introduced in 1998 by \textcite{mnist1998}, the \gls{MNIST} is one of the most popular datasets in the field of machine learning, its simplicity has made it a perfect choice as an introduction to deep learning and classification problems \cite{NN&DL2015}, but also as a benchmark for new techniques in serious research \textbf{--} some examples include \cite{dropout2012}, \cite{gans2014}, \cite{conditionalGAN2014} and \cite{adam2017}.
 
 This dataset consists of 70,000 (60,000 training and 10,000 test) gray-scale images of handwritten digits, all images are of size $28{\times}28$ pixels and are labeled with the corresponding digit. The pixel values are inverted, this means that the strength of the strokes are represented with white pixels (values close to 255) against a black background (pixel value 0), this is however just how the data is represented numerically, for visualization purposes it is better to invert the colors as seen on \autoref{fig:dataset_mnist} \textbf{--} This figure shows some samples from this dataset along with the corresponding label.
 \begin{figure}[hbt]
@@ -62,7 +62,7 @@ The \gls{CIFAR} datasets are another very popular choice for benchmarking neural
 
 
 \section{Flowers} \label{sec:flowers}
-The flowers dataset consists of $8,189$ high resolution images of 102 different categories of flowers, each category has from 40 to 250 different images \cite{flowers2008}. Samples from this dataset can be seen on \autoref{fig:dataset_flowers}
+The flowers dataset consists of $8,189$ high resolution images of 102 different categories of flowers, each category has from 40 to 250 different images \cite{flowers2008}. Samples from this dataset can be seen on \autoref{fig:dataset_flowers}.
 
 \begin{figure} [hbt]
     \centering

@@ -1,5 +1,5 @@
 \section{WGAN}
-For building the \gls{WGAN}, the generator architecture can be the same as the \gls{DCGAN}, the critic can keep the overall structure of the discriminator, but it must have the weight clipping constraints to it's parameters. Besides this, the loss function of both the generator and critic must be replaced by the Wasserstein loss as described in \autoref{sub:wgan}.
+For building the \gls{WGAN}, the generator architecture can be the same as the \gls{DCGAN}, the critic can keep the overall structure of the discriminator, but it must have the weight clipping constraints to its parameters. Besides this, the loss function of both the generator and critic must be replaced by the Wasserstein loss as described in \autoref{sub:wgan}.
 
 As the results will show, this type of \gls{GAN} was the hardest to produce good results, many experiments were made in order to find viable hyperparameters, but it still was unable to produce comparable results to the other techniques. Also, per recommendation of the original authors \cite{wasserstein2017}, the RMSProp optimizer was used in these experiments as the momentum of the Adam optimizer may hurt convergence.
 
@@ -26,7 +26,7 @@ In order to better see the impact of the hyperparameters chosen it is helpful to
 
 In this case, a clipping value of $0.99$ showed the best results, but even the relatively large range of $0.1$ to $2.0$ still produced similar results overall. The performance only started to decrease for smaller clipping values, this is surprising, since in the original paper proposing \acp{WGAN} it was recommended a value of $0.01$ for clipping \cite{wasserstein2017}. The reason for this may be that the authors trained their models on colored images with higher resolutions and that for these cases, smaller clipping values are beneficial. Whatever the reason, the recommended value produce less favorable results and more experiments would be needed in order to give a more definitive answer.
 
-The use of batch normalization can also be analysed, it's effect can be seen on the highlighted results in \autoref{fig:wgan_mnist_bn_use}. For this case, not using batch normalization has shown better results. 
+The use of batch normalization can also be analysed, its effect can be seen on the highlighted results in \autoref{fig:wgan_mnist_bn_use}. For this case, not using batch normalization has shown better results. 
 \begin{figure}[hbt]
     \centering
     \caption{Effects of batch normalization when training a WGAN on MNIST}

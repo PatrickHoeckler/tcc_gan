@@ -1,13 +1,13 @@
 \section{Loss function and Gradient Descent} \label{sec:loss_&_gradient_descent}
 So far only the concept of what a neural network is was explained, but not how it can learn from data, to understand this it is worth to have first a brief summary of what consists a neural network.
 
-A collection of units having nonlinear activation functions form a layer; layers are stacked from the input to the output with some optional hidden layers in-between; the weighted input of a unit is calculated by multiplying it's inputs with some weight parameters and adding a bias term; the unit activation is the output of it's activation function applied to the weighted input; and by varying the values of the weights and biases it is possible to reach different model behaviours \textbf{--} this section will only consider the case when the inputs of a unit come from the immediate previous layer and the output is calculated by passing the input values from layer to layer until the last layer (this is called a \textit{feedforward} neural network), other configurations like \acp{ResNet} \cite{resnet2015} and \acp{RNN} also exist, but it is possible to extend the arguments present here to also explain learning in these contexts.
+A collection of units having nonlinear activation functions form a layer; layers are stacked from the input to the output with some optional hidden layers in-between; the weighted input of a unit is calculated by multiplying its inputs with some weight parameters and adding a bias term; the unit activation is the output of its activation function applied to the weighted input; and by varying the values of the weights and biases it is possible to reach different model behaviours \textbf{--} this section will only consider the case when the inputs of a unit come from the immediate previous layer and the output is calculated by passing the input values from layer to layer until the last layer (this is called a \textit{feedforward} neural network), other configurations like \acp{ResNet} \cite{resnet2015} and \acp{RNN} also exist, but it is possible to extend the arguments present here to also explain learning in these contexts.
 
 For all neural networks, learning is the process of changing the weights and biases (and possibly other values) in order to produce the desired result. The set of values that are learned during training are called the \textit{parameters} of the network.
 
 The number of parameters gives the degree of freedom that the network has, in a larger parameter space the network has more possible choices and can construct more complex relations. On the other hand, fewer parameters may make it difficult or impossible to represent the full complexity of the data. However, besides requiring more computational power, very complex models break the idea of sparsity and can more easily fall into the problem of overfitting (see \autoref{sub:overfitting}).
 
-The number of parameters in the network is given by it's architecture, how many layers it has, how many units in each layer, how the connections are made, and so on. This is a choice made when building the network and is not something that is learned by the algorithm. The set of properties that influence the network but that are not learned are usually called the \textit{hyperparameters}. 
+The number of parameters in the network is given by its architecture, how many layers it has, how many units in each layer, how the connections are made, and so on. This is a choice made when building the network and is not something that is learned by the algorithm. The set of properties that influence the network but that are not learned are usually called the \textit{hyperparameters}. 
 
 Another example of hyperparameter is the activation functions used in the units, they are chosen when constructing the neural network and can't be learned \textbf{--} however some activations like PReLU have internal learnable parameters \cite{prelu2015}.
 
@@ -56,7 +56,7 @@ But for cases where the output can only assume two values (0 or 1), the categori
 
 
 \subsection{Minimizing the loss} \label{sub:minimizing_loss}
-Having an understanding of what is the loss function, the remaining question is: how can the network use the loss in order to update it's parameters? Note that since this function effectively measures how well the network is doing, it can directly be used to guide the parameter changes, the goal is to change the parameters in order to minimize the loss (for now on the goal will only be described as minimization, since it is the most common approach and any maximization problem is equivalent to minimizing the negative of what is being maximized).
+Having an understanding of what is the loss function, the remaining question is: how can the network use the loss in order to update its parameters? Note that since this function effectively measures how well the network is doing, it can directly be used to guide the parameter changes, the goal is to change the parameters in order to minimize the loss (for now on the goal will only be described as minimization, since it is the most common approach and any maximization problem is equivalent to minimizing the negative of what is being maximized).
 
 Note that the inputs $\bm{x}$ are fixed, given that the dataset is also fixed, and that the goal of using neural networks is that they should learn to model the data and not just choose whatever inputs reduce their loss. So in the eyes of the network $J(\bm{x}, \bm{\theta})$ becomes only $J(\bm{\theta})$. This may seem obvious, but this shows an important intuition that the cost function is a high dimensional surface in $N$ dimensional space, $N$ being the number of parameters of the network. And this demonstrates the importance of having both the network and loss functions be continuous and differentiable functions, since this produces a continuous and differentiable surface that allows for updating the parameters in order to reach a minimum region.
 
@@ -104,7 +104,7 @@ The same derivation used to obtain \autoref{eq:delta_theta_sign} can be applied 
     \theta_{i+1}^{(j)} = \theta_{i}^{(j)} - \eta \frac{\partial J}{\partial \theta^{(j)}}
 \end{equation}
 
-There is however another way to look at these updates. Recall that the gradient of any scalar function is a vector field composed of all it's partial derivatives, so the gradient of the loss function is the vector field given by \autoref{eq:gradient}.
+There is however another way to look at these updates. Recall that the gradient of any scalar function is a vector field composed of all its partial derivatives, so the gradient of the loss function is the vector field given by \autoref{eq:gradient}.
 \begin{equation} \label{eq:gradient}
     \renewcommand{\arraystretch}{1.2}
     \nabla_{\bm{\theta}} J = \begin{bmatrix}
@@ -115,7 +115,7 @@ There is however another way to look at these updates. Recall that the gradient 
     \end{bmatrix}
 \end{equation}
 
-Also recall that for any function $f$, it's gradient at any given point is a vector that points towards the direction of steepest increase to the function at that point and the negative of this vector points to the steepest decrease \cite[Chapter~4.6]{calculusIII2016}. So the negative of the gradient $\nabla_{\bm{\theta}} J$ gives the direction to update all parameters in order to most reduce the loss function, this is what was being shown element-wise in \autoref{eq:parameter_update}. By grouping the derivatives it is possible to write the parameter updates in a much cleaner way.
+Also recall that for any function $f$, its gradient at any given point is a vector that points towards the direction of steepest increase to the function at that point and the negative of this vector points to the steepest decrease \cite[Chapter~4.6]{calculusIII2016}. So the negative of the gradient $\nabla_{\bm{\theta}} J$ gives the direction to update all parameters in order to most reduce the loss function, this is what was being shown element-wise in \autoref{eq:parameter_update}. By grouping the derivatives it is possible to write the parameter updates in a much cleaner way.
 \begin{equation} \label{eq:gradient_descent}
     \bm{\theta}_{i+1} = \bm{\theta}_{i} - \eta \nabla_{\bm{\theta}} J(\bm{\theta}_i)
 \end{equation}

@@ -1,5 +1,5 @@
 \section{Artificial Neural Networks}
-To understand neural networks, first it is necessary to understand it's building blocks, artificial neurons. Commonly called just neurons, nodes, or units (the preferred term used in this document will be unit), these were historically inspired by biological neurons. The idea behind them is that a single unit is a very simple element that receives some inputs and produces an output, the real power comes from connecting many of these together, from thousands, to millions, or even billions of connections\footnote{
+To understand neural networks, first it is necessary to understand its building blocks, artificial neurons. Commonly called just neurons, nodes, or units (the preferred term used in this document will be unit), these were historically inspired by biological neurons. The idea behind them is that a single unit is a very simple element that receives some inputs and produces an output, the real power comes from connecting many of these together, from thousands, to millions, or even billions of connections\footnote{
   As of writing this document GPT-3 is the biggest neural network model of all time, having 175 billion parameters \cite{gpt3_2020}.
 }.
 \begin{figure}[hbt]
@@ -10,21 +10,21 @@ To understand neural networks, first it is necessary to understand it's building
     \label{fig:neuron}
 \end{figure}
 
-\autoref{fig:neuron} shows a representation of an artificial unit, it receives a set of inputs $[x_0, x_1, ..., x_n]$, denoted as a vector $\bm{x}$, and each input has a corresponding scalar value $w_i$ called it's weight. Units will also often have a bias term $b$ that is independent of the inputs and that is useful for shifting the output.
+\autoref{fig:neuron} shows a representation of an artificial unit, it receives a set of inputs $[x_0, x_1, ..., x_n]$, denoted as a vector $\bm{x}$, and each input has a corresponding scalar value $w_i$ called its weight. Units will also often have a bias term $b$ that is independent of the inputs and that is useful for shifting the output.
 
-By changing the set of weights (in vector form $\bm{w}$) and the bias term, it is possible to achieve different behaviours from the unit based on it's inputs. \autoref{eq:weighted_input} shows how these parameters are used to calculate what is called the \textit{weighted input} ($z$) of the unit \cite[Chapter 2]{NN&DL2015}.
+By changing the set of weights (in vector form $\bm{w}$) and the bias term, it is possible to achieve different behaviours from the unit based on its inputs. \autoref{eq:weighted_input} shows how these parameters are used to calculate what is called the \textit{weighted input} ($z$) of the unit \cite[Chapter 2]{NN&DL2015}.
 \begin{equation} \label{eq:weighted_input}
     z = \sum_{i}^{n}{w_i x_i} + b =
     %
-    \begin{bmatrix}w_0, & w_1, & ... & w_n\end{bmatrix}^T
-    \begin{bmatrix}x_0, & x_1, & ... & x_n\end{bmatrix} + b =
+    \begin{bmatrix}w_0, & w_1, & ... & w_n\end{bmatrix}
+    \begin{bmatrix}x_0, & x_1, & ... & x_n\end{bmatrix}^T + b =
     %
-    \bm{w}^T \cdot \bm{x} + b
+    \bm{w} \cdot \bm{x}^T + b
 \end{equation}
 
 The weighted input is usually passed through a non-linear function $f$, called the \textit{activation function}, to produce the output $a$, called the unit activation, as seen in \autoref{eq:activation}.
 \begin{equation} \label{eq:activation}
-    a = f\left(z\right) = f\left(\bm{w}^T \cdot \bm{x} + b\right)
+    a = f\left(z\right) = f\left(\bm{w} \cdot \bm{x}^T + b\right)
 \end{equation}
 
 A neural network is built by combining multiple units together and the learning process consists of adjusting all the weights and biases in order to produce the expected results given the dataset. Any combination of connections can be considered a neural network, however for the overwhelming majority of cases the networks are divided into layers, and for most of these cases the connections form an acyclic graph. This means that there are no cycles in the network, the input flows from one layer to the next, and there is usually no connection between layers that are not consecutive \textbf{--} exceptions to this are \gls{LSTM} networks \cite{lstm1997} and Residual Networks \cite{resnet2015}, but they are not the focus of this document.
@@ -103,7 +103,7 @@ The set of biases, weighted inputs, and activations in layer $l$ can also be wri
     \end{bmatrix}
 \end{equation*}
 
-Recall that the activation of a unit is simply it's activation function, denoted here as $f$, applied to the weighted input. \autoref{eq:activation_again} rewrites this relation as shown in \autoref{eq:activation} using the revised notation.
+Recall that the activation of a unit is simply its activation function, denoted here as $f$, applied to the weighted input. \autoref{eq:activation_again} rewrites this relation as shown in \autoref{eq:activation} using the revised notation.
 \begin{equation} \label{eq:activation_again}
     \bm{a}^{(l)} = f\left( \bm{z}^{(l)} \right)
 \end{equation}
@@ -176,7 +176,7 @@ Suppose that in the horizontal direction the sizes of input, kernel, zero paddin
     }\right\rfloor + 1
 \end{equation}
 
-Convolutions can be used to enlarge the input image, but are most commonly used to reduce the dimensions while raising the number of features detected. For example, the GoogLeNet Inception architecture reduces the $224\times224\times3$ input image to a feature map of size $7\times7\times1024$ \cite{inceptionV1_2014}. This reduction is usually not done using only a single convolutional layer, it is most common for the input volume to pass through multiple convolutions that gradually reduce it's width and height while increasing it's depth. Looking at the Inception model again, the whole network is $22$ layers deep with most of those being convolutions for feature extraction \cite{inceptionV1_2014}.
+Convolutions can be used to enlarge the input image, but are most commonly used to reduce the dimensions while raising the number of features detected. For example, the GoogLeNet Inception architecture reduces the $224\times224\times3$ input image to a feature map of size $7\times7\times1024$ \cite{inceptionV1_2014}. This reduction is usually not done using only a single convolutional layer, it is most common for the input volume to pass through multiple convolutions that gradually reduce its width and height while increasing its depth. Looking at the Inception model again, the whole network is $22$ layers deep with most of those being convolutions for feature extraction \cite{inceptionV1_2014}.
 
 According to \textcite[chap. 9]{deepLearningBook2016}, convolutional layers leverage the ideas of sparse interactions, shared parameters, and equivariant representations to improve a machine learning system. They describe sparse interactions in the sense that kernels are smaller than the input, reducing the number of parameters, the memory used, the processing cost, and improving statistical efficiency. And the idea of equivariant representations is related with the invariance to translation, since at least in principle, the use of a sliding window allows for detecting the same feature no matter where it might appear on the image.
 
@@ -203,7 +203,7 @@ When conditioning \acp{GAN} with class information for the \glsunset{CGAN} \gls{
 \subsection{Activation Functions}
 Historically one of the first implementations of artificial neural networks used the step function as activation for the units \cite[Chapter 1]{NN&DL2015}, this means that for positive inputs the step function produces a $1$ and for all other values it produces a $0$. It also could use the sign function \cite{thePerceptron2017}, producing a $-1$ for non positive inputs.
 
-This type of approach is called a Perceptron, one notable example of it's implementation was the MARK I Perceptron, a hardware solution where all weights were regulated by potentiometers and automatically adjusted by motors to train the network \cite{perceptron1960}. However it was later shown that this type of binary activation was very limited and could only solve linear separable problems \cite{thePerceptron2017}.
+This type of approach is called a Perceptron, one notable example of its implementation was the MARK I Perceptron, a hardware solution where all weights were regulated by potentiometers and automatically adjusted by motors to train the network \cite{perceptron1960}. However it was later shown that this type of binary activation was very limited and could only solve linear separable problems \cite{thePerceptron2017}.
 
 One may question the need for activation functions or why do they need to be nonlinear, what is the reason for introducing nonlinearity to the network? To understand this, first note that not using an activation function is the same as setting the output $y = x$, this is also a linear relationship between the values, so it is only necessary to explain why a linear activation is a problem.
 
@@ -225,7 +225,7 @@ By rearranging the terms it can be confirmed that the two linear transformations
 
 This logic holds true for any number of linear transformations. Now it should be hopefully clear to see that there is inherently no difference between a multilayered neural network with linear activations and a simple two layered input-output network. It is necessary to introduce nonlinearities in the hidden layers in order to build more complex models \textbf{--} linear transformations can however be used in the output layer to map the values to a more desirable range, regression problems are an example.
 
-Although nonlinear, the binary property of the step function limits the capabilities of a neural network, to work around this limitations it is necessary to introduce a different type of activation. To avoid the problem of jumping values it is best to have a continuous function instead of a discrete one, it is also important that this function be differentiable in it's domain and that the derivatives are not zero everywhere (see \glsunset{ReLU} \gls{ReLU} activation in \autoref{subsub:relu} for more remarks about this restrictions). The derivative requirements are necessary to make possible the use of the learning algorithm Gradient Descent with Backpropagation (see sections \ref{sec:loss_&_gradient_descent} and \ref{sec:backpropagation}).
+Although nonlinear, the binary property of the step function limits the capabilities of a neural network, to work around this limitations it is necessary to introduce a different type of activation. To avoid the problem of jumping values it is best to have a continuous function instead of a discrete one, it is also important that this function be differentiable in its domain and that the derivatives are not zero everywhere (see \glsunset{ReLU} \gls{ReLU} activation in \autoref{subsub:relu} for more remarks about this restrictions). The derivative requirements are necessary to make possible the use of the learning algorithm Gradient Descent with Backpropagation (see sections \ref{sec:loss_&_gradient_descent} and \ref{sec:backpropagation}).
 
 This section will briefly introduce some important activation functions that are widely used in multiple machine learning problems and that were used in the experiments found in\autoref{cha:experiments}.
 
@@ -287,7 +287,7 @@ This definition allows for \gls{ReLU} to produce exact zeros for any negative in
 
 Since around 2010, with papers like \cite{relu2011} exploring the \gls{ReLU} activation, there were many popular methods that showed impressive results using this function (e.g. \cite{alexnet2012} and \cite{inceptionV3_2015}). At the current time \gls{ReLU} is the standard recommended activation function to be used in most problems \cite{deepLearningBook2016}.
 
-There are however some downsides to this activation. First there is the sharp change in the function behavior at the value $0$, making it's derivative undefined at that point, this however does not seem to be a problem in practice \cite{relu2011}. \gls{ReLU} also loses the desirable zero centered property that made \gls{tanh} a good substitute for the sigmoid, the argument from \textcite{efficientBackprop2012} holds for all activations, this means that all the network updates for units that use \gls{ReLU} must be made in the same direction, making learning more difficult.
+There are however some downsides to this activation. First there is the sharp change in the function behavior at the value $0$, making its derivative undefined at that point, this however does not seem to be a problem in practice \cite{relu2011}. \gls{ReLU} also loses the desirable zero centered property that made \gls{tanh} a good substitute for the sigmoid, the argument from \textcite{efficientBackprop2012} holds for all activations, this means that all the network updates for units that use \gls{ReLU} must be made in the same direction, making learning more difficult.
 
 Lastly, for a unit to be able to learn it is necessary that it outputs a value in the range where the activation function has a non-zero derivative for at least one example in the training data. But it is possible that for all the training data in a given problem, there exists some units using \gls{ReLU} activations that will always output zero, this makes learning impossible in these units and effectively freezes them on their state forever.
 

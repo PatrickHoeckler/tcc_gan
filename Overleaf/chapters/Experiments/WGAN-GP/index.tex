@@ -1,5 +1,5 @@
 \section{WGAN-GP}
-To create a \gls{WGAN-GP} the architecture of the \gls{WGAN} can be modified to remove the weight clipping constraints from the critic, and it's loss can be changed to have a gradient penalty term as described in \autoref{sub:wgan_gp}. The gradient penalty should offer a better alternative to weight clipping and in turn produce better results.
+To create a \gls{WGAN-GP} the architecture of the \gls{WGAN} can be modified to remove the weight clipping constraints from the critic, and its loss can be changed to have a gradient penalty term as described in \autoref{sub:wgan_gp}. The gradient penalty should offer a better alternative to weight clipping and in turn produce better results.
 
 \subsection{MNIST}
 Training the \gls{WGAN-GP} on the \gls{MNIST} dataset produced the results seen in \autoref{fig:wgan_gp_mnist_metrics}. Observe how the overall value of the metrics has improved significantly when compared to the \gls{WGAN} approach.

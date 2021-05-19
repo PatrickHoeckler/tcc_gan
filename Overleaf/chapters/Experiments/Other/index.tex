@@ -56,7 +56,7 @@ Lastly, the nearest neighbour upsampling is the only one who does not produce ch
 \end{figure}
 
 \subsection{Faces with DCGAN}
-This model was considerably slower to train, so most of the decisions over it's design were made before training, based on the previous results. Of particular importance, the generator used nearest neighbour upsampling and batch normalization, the latent space had $256$ dimensions, and the labels were smoothed to the value $0.9$. Due to the time needed for training, this model was not trained to near convergence, but only for 20 epochs.
+This model was considerably slower to train, so most of the decisions over its design were made before training, based on the previous results. Of particular importance, the generator used nearest neighbour upsampling and batch normalization, the latent space had $256$ dimensions, and the labels were smoothed to the value $0.9$. Due to the time needed for training, this model was not trained to near convergence, but only for 20 epochs.
 
 Since the results tend to fluctuate, it is common to see previous epochs producing better results, for this reason \autoref{fig:dcgan_celeba} shows samples from the last three epochs of training. Given their small size, there are some particularly realistic looking images produced by the generator in this set, but it still produces many deformed figures and incomplete eyeglasses. 
 \begin{figure}[hbt]

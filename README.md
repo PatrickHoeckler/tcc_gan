@@ -1,7 +1,7 @@
 # An Analysis of Techniques for Building Generative Adversarial Networks
 Everything related with my graduation project "An Analysis of Techniques for Building Generative Adversarial Networks"
 
-The document can be found at: [Will be here soon](.)
+The document can be found at: https://repositorio.ufsc.br/handle/123456789/223064
 
 ## Repository Structure
 ### Documentation
